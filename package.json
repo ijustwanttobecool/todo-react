@@ -1,0 +1,35 @@
+{
+  "name": "react-test",
+  "version": "1.0.0",
+  "description": "test",
+  "scripts": {
+    "check:type": "tsc --noEmit",
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "npm run check:type && webpack --mode production"
+  },
+  "main": "index.ts",
+  "dependencies": {
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.7",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^3.7.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "author": "",
+  "license": "ISC"
+}
