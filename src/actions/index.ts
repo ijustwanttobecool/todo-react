@@ -5,31 +5,38 @@ import {
   TodoState,
   RECEIVE_TODOS,
   REQUEST_TODO,
+  ERROR_TODOS,
+  TodoDictionary,
 } from '../types/ActionTypes';
 
-function requestTodo(todos: TodoState): TodoActionTypes {
+function requestTodo(list: TodoDictionary): TodoActionTypes {
   return {
     type: REQUEST_TODO,
-    todos,
+    list,
   };
 }
 
-function receiveTodos(todos: TodoState, json: TodoState): TodoActionTypes {
+function receiveTodos(list: TodoDictionary, json: TodoDictionary): TodoActionTypes {
   return {
     type: RECEIVE_TODOS,
-    todos: { ...json, ...todos },
+    list: { ...json, ...list },
   };
 }
 
-export function fetchPost(todos: TodoState) {
+function errorTodos(error: boolean): TodoActionTypes {
+  return {
+    type: ERROR_TODOS,
+    error,
+  }
+}
+
+export function fetchPost(list: TodoDictionary) {
   return (dispatch: ThunkDispatch<TodoState, void, Action>): Promise<TodoActionTypes> => {
-    dispatch(requestTodo(todos));
+    dispatch(requestTodo(list));
 
     return fetch('https://jsonplaceholder.typicode.com/todos')
-      .then(
-        (resp) => resp.json(),
-        (error) => console.log(error),
-      )
-      .then((json: TodoState) => dispatch(receiveTodos(todos, json)));
+      .then(resp => resp.json())
+      .then((json: TodoDictionary) => dispatch(receiveTodos(list, json)))
+      .catch((error) => dispatch(errorTodos(!!error)));
   };
 }

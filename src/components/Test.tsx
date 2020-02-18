@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as actions from '../actions/index';
-import { TodoState } from '../types/ActionTypes';
+import { TodoDictionary } from '../types/ActionTypes';
+import { RootState } from '../store';
 
-interface RootState {
-  todos: TodoState;
-}
-
-const Test = ({ fetchPost, todos }: Connector): JSX.Element => {
+const Test = ({ fetchPost, todos, error }: Connector): JSX.Element => {
   const todoList = Object.keys(todos).map((key) => (
     <li key={todos[key].id}>
       {todos[key].id}
@@ -16,11 +13,10 @@ const Test = ({ fetchPost, todos }: Connector): JSX.Element => {
       {todos[key].title}
     </li>
   ));
-  const [state, setState] = useState(1);
+
   return (
     <>
-      <div>{state}</div>
-      <button type="button" onClick={() => setState(state + 1)}>INCREASE</button>
+      <div>{error.toString()}</div>
       <button type="button" onClick={() => fetchPost(todos)}>request</button>
       <ul>{todoList}</ul>
     </>
@@ -29,10 +25,11 @@ const Test = ({ fetchPost, todos }: Connector): JSX.Element => {
 
 const connector = connect(
   (state: RootState) => ({
-    todos: state.todos,
+    todos: state.todos.list,
+    error: state.todos.error,
   }),
   (dispatch: ThunkDispatch<{}, {}, any>) => ({
-    fetchPost: (todos: TodoState) => dispatch(actions.fetchPost(todos)),
+    fetchPost: (todos: TodoDictionary) => dispatch(actions.fetchPost(todos)),
   }),
 );
 

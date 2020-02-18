@@ -7,3 +7,5 @@ export const store = createStore(
   reducer,
   applyMiddleware(thunk),
 );
+
+export type RootState = ReturnType<typeof reducer>;
