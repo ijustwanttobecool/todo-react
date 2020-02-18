@@ -9,6 +9,8 @@ import {
   TodoDictionary,
 } from '../types/ActionTypes';
 
+const baseUrl = 'http://localhost:3000/todos';
+
 function requestTodo(list: TodoDictionary): TodoActionTypes {
   return {
     type: REQUEST_TODO,
@@ -34,7 +36,7 @@ export function fetchPost(list: TodoDictionary) {
   return (dispatch: ThunkDispatch<TodoState, void, Action>): Promise<TodoActionTypes> => {
     dispatch(requestTodo(list));
 
-    return fetch('https://jsonplaceholder.typicode.com/todos')
+    return fetch(baseUrl)
       .then(resp => resp.json())
       .then((json: TodoDictionary) => dispatch(receiveTodos(list, json)))
       .catch((error) => dispatch(errorTodos(!!error)));

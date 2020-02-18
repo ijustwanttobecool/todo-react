@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as actions from '../actions/index';
 import { TodoDictionary } from '../types/ActionTypes';
 import { RootState } from '../store';
+import Todo from './Todo';
 
-const Test = ({ fetchPost, todos, error }: Connector): JSX.Element => {
-  const todoList = Object.keys(todos).map((key) => (
-    <li key={todos[key].id}>
-      {todos[key].id}
-      {' '}
-      {todos[key].title}
-    </li>
-  ));
-
+const TodoList = ({ fetchPost, todos, error }: Connector): JSX.Element => {
+  useEffect(() => {
+    fetchPost(todos);
+  }, []);
+ 
+  const list = Object.values(todos).map((todo) => 
+    <Todo
+      key={todo.id}
+      title={todo.title}
+      completed={todo.completed}
+      user={todo.userId}
+    />
+  )
   return (
     <>
-      <div>{error.toString()}</div>
-      <button type="button" onClick={() => fetchPost(todos)}>request</button>
-      <ul>{todoList}</ul>
+      {list}
     </>
   );
 };
@@ -35,4 +38,4 @@ const connector = connect(
 
 type Connector = ConnectedProps<typeof connector>;
 
-export default connector(Test);
+export default connector(TodoList);

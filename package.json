@@ -4,7 +4,8 @@
   "description": "test",
   "scripts": {
     "check:type": "tsc --noEmit",
-    "start": "webpack-dev-server --mode development --open --hot",
+    "dev:server": "json-server --watch db.json",
+    "dev:webpack": "webpack-dev-server --mode development --open --hot",
     "build": "npm run check:type && webpack --mode production"
   },
   "main": "index.ts",
@@ -26,6 +27,7 @@
     "@babel/preset-typescript": "^7.8.3",
     "babel-loader": "^8.0.6",
     "html-webpack-plugin": "^3.2.0",
+    "json-server": "^0.16.0",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
