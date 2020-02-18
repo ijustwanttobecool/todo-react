@@ -1,8 +1,8 @@
-import { combineReducers,  createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { numbers, todos } from '../reducers/index';
+import * as reducers from '../reducers/index';
 
-const reducer = combineReducers({ numbers, todos });
+const reducer = combineReducers(reducers);
 export const store = createStore(
   reducer,
   applyMiddleware(thunk),
