@@ -1,39 +1,35 @@
-interface Dictionary<T> {
-  [Key: string]: T;
-}
-
-export interface Todo {
-  userId: number;
+export interface TodoType {
   id: number;
   title: string;
   completed: boolean;
 };
 
-export type TodoDictionary = Dictionary<Todo>;
+export type TodoArray = TodoType[];
 
 export type TodoState = {
-  list: TodoDictionary;
+  list: TodoArray;
   error: boolean;
 };
 
 export const REQUEST_TODO = 'REQUEST_TODO';
-export const TOGGLE_COMPLETE = 'TOGGLE_COMPLETE';
+export const UPDATE_TODO = 'UPDATE_TODO';
+export const ADD_TODO = 'ADD_TODO';
 export const RECEIVE_TODOS = 'RECEIVE_TODOS';
 export const ERROR_TODOS = 'ERROR_TODOS';
 
 interface ToggleCompleteAction {
-  type: typeof TOGGLE_COMPLETE;
-  list: TodoDictionary;
+  type: typeof UPDATE_TODO;
+  todo: TodoType;
 }
 
 interface RequestAction {
   type: typeof REQUEST_TODO;
-  list: TodoDictionary;
+  list: TodoArray;
 }
 
 interface ReceiveTodos {
   type: typeof RECEIVE_TODOS;
-  list: TodoDictionary;
+  list: TodoArray;
 }
 
 interface ErrorTodos {
@@ -41,4 +37,14 @@ interface ErrorTodos {
   error: boolean;
 }
 
-export type TodoActionTypes = ToggleCompleteAction | RequestAction | ReceiveTodos | ErrorTodos;
+interface UpdateTodo {
+  type: typeof UPDATE_TODO;
+  todo: TodoType;
+}
+
+interface AddTodo {
+  type: typeof ADD_TODO;
+  todo: TodoType
+}
+
+export type TodoActionTypes = ToggleCompleteAction | RequestAction | ReceiveTodos | ErrorTodos | UpdateTodo | AddTodo;

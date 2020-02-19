@@ -3,15 +3,17 @@ import React from 'react';
 type TodoProps = {
   title: string;
   completed: boolean;
-  user: number;
+  id: number;
+  onToggle: Function;
 }
 
-export default ({ title, completed, user}: TodoProps): JSX.Element => {
+export default ({
+  title, completed, id, onToggle,
+}: TodoProps): JSX.Element => {
   return (
     <div>
       <div>{title}</div>
-      <div>{completed ? '✅' : '⬜️'}</div>
-      <div>{user}</div>
+      <div onClick={() => onToggle(id)}>{ completed ? '✅' : '⬜️'}</div>
     </div>
   );
 };

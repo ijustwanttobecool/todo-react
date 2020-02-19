@@ -2,25 +2,41 @@ import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as actions from '../actions/index';
-import { TodoDictionary } from '../types/ActionTypes';
+import { TodoType, TodoArray } from '../types/ActionTypes';
 import { RootState } from '../store';
 import Todo from './Todo';
+import AddTodo from './AddTodo';
 
-const TodoList = ({ fetchPost, todos, error }: Connector): JSX.Element => {
+const TodoList = ({ getTodos, patchAsyncTodo, todos, addAsyncTodo }: Connector): JSX.Element => {
   useEffect(() => {
-    fetchPost(todos);
+    getTodos(todos);
   }, []);
- 
-  const list = Object.values(todos).map((todo) => 
+
+  const toggleCompleted = (id: number) => {
+    const toggleTodo = todos.find((todo) => todo.id === id) as TodoType;
+    patchAsyncTodo({
+      ...toggleTodo,
+      completed: !toggleTodo.completed
+    }, todos)
+  }
+
+  const addTodo = (title: string) => {
+    if (!title) return;
+    addAsyncTodo(title)
+  };
+
+  const list = todos.map((todo) =>
     <Todo
       key={todo.id}
+      id={todo.id}
       title={todo.title}
       completed={todo.completed}
-      user={todo.userId}
+      onToggle={toggleCompleted}
     />
   )
   return (
     <>
+      <AddTodo onAdd={addTodo}/>
       {list}
     </>
   );
@@ -32,7 +48,9 @@ const connector = connect(
     error: state.todos.error,
   }),
   (dispatch: ThunkDispatch<{}, {}, any>) => ({
-    fetchPost: (todos: TodoDictionary) => dispatch(actions.fetchPost(todos)),
+    getTodos: (list: TodoArray) => dispatch(actions.getAsyncTodos(list)),
+    patchAsyncTodo: (todo: TodoType, list: TodoArray) => dispatch(actions.patchAsyncTodo(list, todo)),
+    addAsyncTodo: (title: string) => dispatch(actions.addAsyncTodo(title))
   }),
 );
 
